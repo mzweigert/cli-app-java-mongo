@@ -1,6 +1,8 @@
 package com.cli.util;
 
 
+import com.cli.enums.ProgramCode;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -26,5 +28,9 @@ public class Properties {
             e.printStackTrace();
         }
         return (String) properties.get(property);
+    }
+
+    public static String getProgramCodeDescription(ProgramCode programCode) {
+        return getProperty(String.format("app.program_code.desc.%s", programCode));
     }
 }

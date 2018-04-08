@@ -20,11 +20,11 @@ public class InputValidator {
         Long valueLong = null;
         do {
             String line = scanner.nextLine();
-            if(ProgramCode.EXIT.isEqual(line)){
+            if(ProgramCode.BACK.isEqual(line)){
                 return Optional.empty();
             }
             try {
-                valueLong = Long.parseLong(scanner.nextLine());
+                valueLong = Long.parseLong(line);
                 correct = true;
             } catch (NumberFormatException e) {
                 System.out.println("Incorrect number format, try again!");

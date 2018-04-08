@@ -9,6 +9,7 @@ import com.mongodb.ServerAddress;
 
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class Run {
 
@@ -39,11 +40,25 @@ public class Run {
     }
 
     private static void doAction(String choose, Scanner scanner) {
-        if(ProgramCode.GET_BY_TAXI_ID.isEqual(choose)){
-            System.out.println("Type taxi id or exit to return");
+        if(ProgramCode.FIND_BY_TAXI_ID.isEqual(choose)){
+            System.out.println("Type taxi id or back to return");
             Optional<Long> result = InputValidator.instance().tryParseLong(scanner);
-            result.ifPresent(id -> TaxiRideService.instance(mongo).findByTaxiId(id));
+            ifPresent(
+                    result,
+                    id -> TaxiRideService.instance(mongo).findByTaxiId(id)
+            );
+
+        } else if (ProgramCode.HELP.isEqual(choose)) {
+            System.out.println(ProgramCode.getOptionsWithDescription());
         }
     }
 
+    private static <T> void ifPresent(Optional<T> value, Consumer<T> ifPresent) {
+        if(value.isPresent()){
+            ifPresent.accept(value.get());
+        } else {
+            System.out.println("Back to main menu");
+            System.out.println("Tell me what you want do?");
+        }
+    }
 }
