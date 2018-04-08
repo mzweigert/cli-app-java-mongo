@@ -1,10 +1,11 @@
-package com.cli.code;
+package com.cli.enums;
 
 import java.util.Arrays;
 
 public enum ProgramCode {
 
-    EXIT("exit");
+    EXIT("exit"),
+    GET_BY_TAXI_ID("getByTaxiId");
 
     private String value;
 
