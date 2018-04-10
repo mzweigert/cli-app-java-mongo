@@ -1,7 +1,7 @@
 package com.cli.util;
 
 
-import com.cli.enums.ProgramCode;
+import com.cli.enums.Command;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +13,7 @@ public class Properties {
     public static final Integer PORT_REPLICA_2 = Integer.valueOf(getProperty("app.replica.port.second"));
     public static final Integer PORT_REPLICA_3 = Integer.valueOf(getProperty("app.replica.port.third"));
     public static final String DB_NAME = getProperty("app.db.name");
-    public static final String COLLECTION_NAME = getProperty("app.db.collection.name");
+    public static final String TAXI_RIDES_COLLECTION_NAME = getProperty("app.db.collection.name");
 
     private static String getProperty(String property) {
         java.util.Properties properties = new java.util.Properties();
@@ -30,7 +30,7 @@ public class Properties {
         return (String) properties.get(property);
     }
 
-    public static String getProgramCodeDescription(ProgramCode programCode) {
+    public static String getProgramCodeDescription(Command programCode) {
         return getProperty(String.format("app.program_code.desc.%s", programCode));
     }
 }
