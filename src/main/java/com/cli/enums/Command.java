@@ -88,4 +88,8 @@ public enum Command {
         return getFindOptionCommands().stream()
                 .anyMatch(c -> c.isEqual(choose));
     }
+
+    public static boolean isNotAnswerWord(String answer) {
+        return YES.isNotEqual(answer) && NO.isNotEqual(answer) && BACK.isNotEqual(answer);
+    }
 }

@@ -1,6 +1,7 @@
 package com.cli.util;
 
 import com.cli.enums.Command;
+import com.sun.deploy.util.StringUtils;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -37,11 +38,14 @@ public class InputValidator {
 
     public Map<Object, Object> createCriteria(String line) {
         Map<Object, Object> criteria = new HashMap<>();
-        String[] values = line.split(",");
-        for (String value : values){
-            String[] keyValue = value.split("\\s*( |:|\\s)\\s*");
-            if(keyValue.length == 2 && keyValueNotEmpty(keyValue[0], keyValue[1])){
-                criteria.put(keyValue[0], checkTypeValue(keyValue[1]));
+        String[] keysValues = line.split(",");
+        for (String keyValue : keysValues){
+            String key = keyValue.substring(0, keyValue.indexOf(" "));
+            String val = keyValue.substring(keyValue.indexOf(" ") + 1);
+
+
+            if(keyValueNotEmpty(key, val)){
+                criteria.put(key, checkTypeValue(val));
             }
         }
         return criteria;

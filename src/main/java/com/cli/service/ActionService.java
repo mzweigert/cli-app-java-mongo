@@ -111,11 +111,13 @@ public class ActionService {
             if(!Command.isFindOptionCommand(line)){
                 System.out.println(String.format("Command :%s not found, type \"help\" to get commands", line));
             } else if (Command.DELETE.isEqual(line)) {
-                utilities.showDialog(document, taxiRideService::delete, (doc) -> System.out.println("Back.."));
+               taxiRideService.delete(document);
+                return true;
             } else if (Command.EDIT.isEqual(line)) {
-                //TODO
+                taxiRideService.edit(document);
+                return true;
             } else if (Command.COUNT.isEqual(line)) {
-                System.out.println("Records found: " + taxiRideService.getCollectionCount(criteria));
+                taxiRideService.printCollectionCount(criteria);
             } else if (Command.SHOW.isEqual(line)) {
                 System.out.println(document.toJson());
             } else if (Command.HELP.isEqual(line)) {

@@ -23,13 +23,17 @@ public class Utilities {
     }
 
     public void showDialog(Document value, Consumer<Document> yesAction, Consumer<Document> noAction) {
-        System.out.println("Are you sure? yes/ no, back");
+        System.out.println("Are you sure? yes/ no or back");
         String answer = AppScanner.nextLine();
         do {
-            if (Command.YES.isEqual(answer)) {
+            if(Command.isNotAnswerWord(answer)){
+                System.out.println("Command incorrect. Type yes / no or back");
+            } else if (Command.YES.isEqual(answer)) {
                 yesAction.accept(value);
+                return;
             } else if (Command.NO.isEqual(answer)) {
                 noAction.accept(value);
+                return;
             }
         } while (!Command.BACK.isEqual(answer));
         System.out.println("Back..");
