@@ -1,0 +1,8 @@
+w1,j,:false
+1.26 user,0.46 system,7:58.12 elapsed
+w1,j,:true
+1.29 user,0.53 system,20:53.31 elapsed
+w2,j,:false
+1.29 user,0.50 system,22:08.82 elapsed
+w2,j,:true
+1.25 user,0.51 system,25:08.82 elapsed

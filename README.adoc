@@ -3,4 +3,8 @@ app-cli-mzweigert created by GitHub Classroom
 
 Liczba rekordów: 1705805
 
+[%header,format=csv]
+|===
+include::time.csv[]
+|===
 
