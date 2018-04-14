@@ -10,3 +10,11 @@ Ponadto bedąc w jakieś z opcji "find*" program z każdym rekordem pyta się na
 usunać, edytować, ominąć, czy pokazać ponownie oraz wrócić do głownego menu.
 
 Skrypty do importowania danych oraz ich opis znajdują się [tu](https://github.com/nosql/app-cli-mzweigert/tree/master/scripts)
+
+Do uruchomienia projektu potrzebne są
+
+- Java: 1.8
+
+- Maven: 3.3.x
+
+- MongoDB: 3.6.x
