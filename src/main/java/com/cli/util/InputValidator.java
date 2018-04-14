@@ -9,8 +9,10 @@ import java.util.*;
 
 public class InputValidator {
 
-    private InputValidator(){
+    private final Utilities utilities;
 
+    private InputValidator(){
+        this.utilities = new Utilities();
     }
 
     public static InputValidator instance(){
@@ -36,16 +38,32 @@ public class InputValidator {
         return Optional.of(valueLong);
     }
 
-    public Map<Object, Object> createCriteria(String line) {
+    public Optional<Map<Object, Object>> typeAndCreateCriteria(){
+        String line;
+        Map<Object, Object> criteria;
+        do {
+            line = AppScanner.nextLine();
+            criteria = createCriteria(line);
+            if (Command.BACK.isEqual(line)) {
+                System.out.println("Back ...");
+                utilities.printMainInfo();
+                return Optional.empty();
+            } else if (criteria.size() == 0) {
+                System.out.println("Incorrect criteria");
+            }
+        } while (criteria.size() == 0);
+        return Optional.of(criteria);
+    }
+    private Map<Object, Object> createCriteria(String line) {
         Map<Object, Object> criteria = new HashMap<>();
         String[] keysValues = line.split(",");
         for (String keyValue : keysValues){
-            String key = keyValue.substring(0, keyValue.indexOf(" "));
-            String val = keyValue.substring(keyValue.indexOf(" ") + 1);
-
-
-            if(keyValueNotEmpty(key, val)){
-                criteria.put(key, checkTypeValue(val));
+            if(keyValue.contains(" ")){
+                String key = keyValue.substring(0, keyValue.indexOf(" "));
+                String val = keyValue.substring(keyValue.indexOf(" ") + 1);
+                if(keyValueNotEmpty(key, val)){
+                    criteria.put(key, checkTypeValue(val));
+                }
             }
         }
         return criteria;

@@ -20,7 +20,8 @@ public enum Command {
     YES("yes"),
     NO("no"),
     COUNT("count"),
-    SHOW("show");
+    SHOW("show"),
+    CREATE_INDEX("createIndex");
 
     private String value;
     private String description;
@@ -36,6 +37,7 @@ public enum Command {
 
     public static List<Command> getMainMenuCommands() {
         List<Command> commands = new ArrayList<>();
+        commands.add(CREATE_INDEX);
         commands.add(FIND_BY_TAXI_ID);
         commands.add(FIND);
         commands.add(FIND_ALL);

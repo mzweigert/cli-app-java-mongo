@@ -17,9 +17,9 @@ public final class ClientConnection {
     public static MongoClient getClient() {
         if (mongo == null) {
             mongo = new MongoClient(Arrays.asList(
-                    new ServerAddress(com.cli.util.Properties.HOST, Properties.PORT_REPLICA_1)/*,
+                    new ServerAddress(com.cli.util.Properties.HOST, Properties.PORT_REPLICA_1),
                     new ServerAddress(Properties.HOST, Properties.PORT_REPLICA_2),
-                    new ServerAddress(Properties.HOST, Properties.PORT_REPLICA_3)*/
+                    new ServerAddress(Properties.HOST, Properties.PORT_REPLICA_3)
             ));
         }
         return mongo;

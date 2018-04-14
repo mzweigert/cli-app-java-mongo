@@ -29,12 +29,12 @@ public class ActionService {
         return new ActionService();
     }
 
-    public void rootAction(Consumer<String> consumer){
+    public void rootAction(Consumer<String> consumer) {
         String choose;
         utilities.printMainInfo();
-        do  {
+        do {
             choose = AppScanner.nextLine();
-            if(Command.isMainMenuCommand(choose)) {
+            if (Command.isMainMenuCommand(choose)) {
                 consumer.accept(choose);
             } else {
                 System.out.println(String.format("Command : %s not found, type \"help\" to get commands", choose));
@@ -44,36 +44,32 @@ public class ActionService {
 
 
     public void mainMenuAction(String choose) {
-        if (Command.FIND.isEqual(choose)) {
+        if (Command.CREATE_INDEX.isEqual(choose)) {
+            taxiRideService.createIndex();
+        } else if (Command.FIND.isEqual(choose)) {
 
             System.out.println("Type keys and values separate by space, e.g. key1 val1, key2 val2");
             taxiRideService.printAvailableKeys();
-            String line = null;
-            Map<Object, Object> criteria = null;
-            do {
-                line = AppScanner.nextLine();
-                criteria = inputValidator.createCriteria(line);
-                if(Command.BACK.isEqual(line)) {
-                    System.out.println("Back ...");
-                    utilities.printMainInfo();
-                    return;
-                } else if(criteria.size() == 0) {
-                    System.out.println("Incorrect criteria");
-                }
-            } while (criteria.size() == 0);
-            FindIterable<Document> documents = taxiRideService.find(criteria);
-            findAction(documents, criteria);
+
+            Optional<Map<Object, Object>> criteria = inputValidator.typeAndCreateCriteria();
+            if(criteria.isPresent()) {
+                FindIterable<Document> documents = taxiRideService.find(criteria.get());
+                findAction(documents, criteria.get());
+            }
 
         } else if (Command.FIND_BY_TAXI_ID.isEqual(choose)) {
 
             System.out.println("Type taxi id or back to return");
             Optional<Number> result = inputValidator.tryParseNumber();
-            utilities.ifPresent(result, (id) -> {
+            if(result.isPresent()){
                 Map<Object, Object> criteria = new HashMap<>();
-                criteria.put("taxi_id", id);
+                criteria.put("taxi_id", result.get());
                 FindIterable<Document> documents = taxiRideService.find(criteria);
                 findAction(documents, criteria);
-            });
+            } else {
+                System.out.println("Back to main menu");
+                utilities.printMainInfo();
+            }
 
         } else if (Command.FIND_ALL.isEqual(choose)) {
 
@@ -87,7 +83,7 @@ public class ActionService {
 
     public void findAction(FindIterable<Document> documents, Map<Object, Object> criteria) {
         MongoCursor<Document> iterator = documents.iterator();
-        if(!iterator.hasNext()) {
+        if (!iterator.hasNext()) {
             System.out.println("Nothing found :(");
             utilities.printMainInfo();
             return;
@@ -98,7 +94,7 @@ public class ActionService {
             System.out.println("What you want to do with it? ");
             System.out.println(Command.getFindOptionCommandsDescription());
             boolean goToTheNextOne = doOperationOrReturn(document, criteria);
-            if(!goToTheNextOne){
+            if (!goToTheNextOne) {
                 return;
             }
         }
@@ -108,14 +104,13 @@ public class ActionService {
         String line = null;
         do {
             line = AppScanner.nextLine();
-            if(!Command.isFindOptionCommand(line)){
+            if (!Command.isFindOptionCommand(line)) {
                 System.out.println(String.format("Command :%s not found, type \"help\" to get commands", line));
             } else if (Command.DELETE.isEqual(line)) {
-               taxiRideService.delete(document);
+                taxiRideService.delete(document);
                 return true;
             } else if (Command.EDIT.isEqual(line)) {
-                taxiRideService.edit(document);
-                return true;
+                return taxiRideService.edit(document);
             } else if (Command.COUNT.isEqual(line)) {
                 taxiRideService.printCollectionCount(criteria);
             } else if (Command.SHOW.isEqual(line)) {
@@ -123,7 +118,7 @@ public class ActionService {
             } else if (Command.HELP.isEqual(line)) {
                 System.out.println(Command.getFindOptionCommandsDescription());
                 taxiRideService.printAvailableKeys();
-            } else if(Command.BACK.isEqual(line)) {
+            } else if (Command.BACK.isEqual(line)) {
                 System.out.println("Back..");
                 utilities.printMainInfo();
                 return false;
