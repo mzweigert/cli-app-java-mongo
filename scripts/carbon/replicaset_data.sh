@@ -16,13 +16,14 @@ function import_to_db {
 }
 
 
-
-#echo w1,j,:false >> $TIME_FILE
-#import_to_db '{w:1,j:false}'
-#echo w1,j,:true >> $TIME_FILE
-#import_to_db '{w:1,j:true}'
-#echo w2,j,:false >> $TIME_FILE
-#import_to_db '{w:2,j:false}'
-echo w2,j,:true >> $TIME_FILE
+echo w:1,wtimeout:0 >> $TIME_FILE
+import_to_db '{w:1, wtimeout:0}'
+echo w:1, j:false >> $TIME_FILE
+import_to_db '{w:1,j:false}'
+echo w:1, j:true >> $TIME_FILE
+import_to_db '{w:1,j:true}'
+echo w:2, j:false >> $TIME_FILE
+import_to_db '{w:2,j:false}'
+echo w:2, j:true >> $TIME_FILE
 import_to_db '{w:2,j:true}'
 

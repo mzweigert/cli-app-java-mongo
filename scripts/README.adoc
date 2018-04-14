@@ -3,8 +3,41 @@ app-cli-mzweigert created by GitHub Classroom
 
 Liczba rekordów: 1705805
 
-[%header,format=csv]
+
+[%header,cols=2*]
 |===
-include::time.csv[]
+|Opcja
+|Średni czas
+
+|w : 1, j:1, "wtimeout" : 0
+|21:31m
+
+|w : 1, j:false
+|10:41m
+
+|w : 1, j:true
+|23.53m
+
+|w: 2, j: false
+|18.36m
+
+|w: 2, j: true
+|25.08m
 |===
 
+#### Wnioski:
+- w : 1, j:false
+
+Dla tej opcji, czas importu był najkrótszy, ponieważ przy opcji w:1 oczekiwaliśmy tylko odpowiedzi powodzenia zapisu od PRIMARY replica set oraz opcja j:false, która nie odnotywała operacji zapisu do dziennika, stąd czas tego importu był najkrótszy.
+
+- w: 2, j: false
+
+Tutaj czas sie nam wydłużył, przez to, że oczekiwaliśmy dodatkowo potwierdzenia zapisu od 2 replica set.
+
+- w : 1, j:true i w: 2, j: true
+
+Czasy importu przy tych ustawieniach są podobne, cechuje ich journal ustawiony na true. MongoDB przy tym ustawieniu zapisuje operację zapisu do dziennika, jak widać dla moich danych opcja ta jest zasobożerna i czasochłonna
+
+- w : 1, j:1, "wtimeout" : 0
+
+Tutaj podobnie jak wyżej z tym, że opcja wtimeout ustawiona jest na 0, przez co MongoDB nie ma ograniczenia do czasu w jakim może dokonać importu
