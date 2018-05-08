@@ -18,3 +18,11 @@ Do uruchomienia projektu potrzebne są
 - Maven: 3.3.x
 
 - MongoDB: 3.6.x
+
+
+####Uruchomienie projektu
+cd /scripts/
+./prepare_data.sh
+./start_replica.sh
+cd ..
+mvn install exec:java

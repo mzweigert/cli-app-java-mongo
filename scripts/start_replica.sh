@@ -17,7 +17,6 @@ echo "start mongod in port 27003"
 mongod --port 27003 --replSet carbon --dbpath data-3 --bind_ip localhost --oplogSize 128 --wiredTigerJournalCompressor zlib --wiredTigerCollectionBlockCompressor zlib > /dev/null &
 sleep 10
 
-mongo --host localhost:27001 repl_set_init.js 
+mongo --host localhost:27001 replica_set_init.js
 sleep 10
-sudo ./replicaset_data.sh
-
+sudo ./replica_import.sh
