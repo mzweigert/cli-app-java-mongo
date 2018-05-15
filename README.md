@@ -20,9 +20,31 @@ Do uruchomienia projektu potrzebne są
 - MongoDB: 3.6.x
 
 
-####Uruchomienie projektu
+#### Uruchomienie projektu
 cd /scripts/
 ./prepare_data.sh
 ./start_replica.sh
 cd ..
 mvn install exec:java
+
+### Operacja wyszukania z indeksem
+
+Wykonane zostały dwa zapytania na bazie, pobierające dane po taxi_id i po payment_category na liczbie 1705805 rekordów.
+
+#### payment_category
+Wykonanie zapytania db.getCollection('taxitrips').find({ payment_category : "Cash" }).
+Czas wykonania: 
+
+- bez indeksu 92.976 sekundy.
+- z indeksem 32.175 sekundy.
+
+Następne zapytanie zostało wykonane znacznie szybciej, około 4 sekund.  
+Warto podkreślić, że kolumna payment_category może mieć tylko 2 wartości : Cash i Credit.
+
+Drugie zapytanie to db.getCollection('taxitrips').find({ taxi_id : 1234 }).
+Czas wykonania: 
+
+- bez indeksu 5.221 sekund.
+- z indeksem 0.072 sekundy.
+
+Jak widać jest znaczny skok wydajności w porównaniu do poprzedniego przykładu, ponieważ tu indeks może posortować i zapamiętać miejsce danych, a w pierwszym przykładzie mógł posortować tylko po dwóch wartościach : Cash i Credit Card, a dodatkowo zbiór który pobierał był o wiele większy niż ten pobierany po taxi_id.
